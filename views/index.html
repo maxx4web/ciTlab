@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.css"/>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+<script src="facebook.js"></script>
+
+<div>
+    <div class="top-bar" w3-include-html="includes/top-bar.html"></div>
+
+    <!--
+    // Page Lois
+    //      bloc liste trié par vote sinon par date : titre + votes
+    //      ex : https://www.egalite-citoyennete-participez.gouv.fr/projects
+-->
+    <div class="grid-x consultation-lois-et-amendements">
+        <div class="large-7 cell liste-top-lois"></div>
+        <div class="large-5 cell consultation-amendements">
+            <div class="callout intro-amendement">
+                <button class="close-button" aria-label="Close alert" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p id="status">Bienvenue sur les lois et amendements</p>
+            </div>
+            <div class="liste-amendements"></div>
+
+            <div class="card form-amendement hidden">
+                <h3>Ajouter un amendement à la loi {{loi.titre}}</h3>
+                <form method="post" action="/review">
+                    <label for="texte-amendement">Amendement
+                        <input type="text" class="form-control" name="titre-loi"
+                               placeholder="Nom de la loi"/>
+                    </label>
+                    <label for="texte-amendement">Description
+                        <textarea id="texte-amendement" name="texte-amendement"
+                                  placeholder="Tapez votre texte ici.."></textarea>
+                    </label>
+
+                    <!--<button type="submit" @click.prevent="submit">go!</button>-->
+                    <button type="submit" class="button float-right">go!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+<script src="index.js"></script>
+
+</body>
+</html>

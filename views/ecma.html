@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <title>ECMAScript 6 - Demos</title>
+</head>
+<body>
+
+<input type="text" id="myfield">
+<span id="out"></span>
+<div class="large-7 cell liste-top-lois"></div>
+<div class="liste-amendements"></div>
+<script>
+
+    //    class EventEmitter {
+    //        constructor() {
+    //            this.listeners = new Map();
+    //        }
+    //
+    //        addListener(label, callback) {
+    //            this.listeners.has(label) || this.listeners.set(label, []);
+    //            this.listeners.get(label).push(callback);
+    //        }
+    //
+    ////        removeListener(label, callback) { }
+    //
+    //        emit(label, ...args) {
+    //            let listeners = this.listeners.get(label);
+    //
+    //            if (listeners && listeners.length) {
+    //                listeners.forEach((listener) => {
+    //                    listener(...args);
+    //                });
+    //                return true;
+    //            }
+    //            return false;
+    //        }
+    //    }
+
+    // Presenter, active part of the view : all the logic between passive view and the rest
+    class EcmaPresenter {
+        constructor(ecmaView) {
+            this._view = ecmaView;
+            this._amendements = new Map()
+        }
+
+        route(hash) {
+            console.log('route', hash);
+            let anchor = hash.substr(1);
+
+            //  if (!anchor) {}
+            this.loadLois();
+
+            let match = anchor.match('[0-9]+');
+            console.log('route parsing', match);
+            if (match) {
+                this.loadAmendements(match[0])
+            }
+        }
+
+        loadLois() {
+            console.log("_lois", this._lois);
+            let lois = this._lois;
+            if (lois) {
+                this._view.renderLois(lois)
+            } else {
+                console.log('fetching Lois...');
+                this.get('/lois')
+                    .then(data => this.handleLois(data))
+            }
+        }
+
+        handleLois(data) {
+            this._lois = data;
+            this._view.renderLois(data)
+        }
+
+        loadAmendements(loi_id) {
+            console.log("_amendements", this._amendements);
+            let loi_amendements = this._amendements.get(loi_id);
+            if (loi_amendements) {
+                this._view.renderAmendements(loi_amendements)
+            } else {
+                console.log('fetchingAmendements...', loi_id);
+                this.get('/amendements?id_loi=' + loi_id)
+                    .then(data => this.handleAmendements(loi_id, data))
+            }
+        }
+
+        handleAmendements(loi_id, data) {
+            this._amendements.set(loi_id, data);
+            this._view.renderAmendements(this._amendements.get(loi_id))
+        }
+
+        get(url) {
+            return fetch(url)
+                .then(function (response) {
+                    return response.json()
+                }).then(function (json) {
+                    return json;
+                }).catch(function (ex) {
+                    console.log('parsing failed', ex)
+                })
+        }
+    }
+
+    // the view, passive part : fire ui event to presenter, display method to be call from presenter
+    class EcmaView {
+        constructor() {
+            this._homeViewPresenter = new EcmaPresenter(this);
+            this.bindUIEvents()
+        }
+
+        bindUIEvents() {
+            window.onload = e => {
+                this._homeViewPresenter.route(window.location.hash)
+            };
+            window.onhashchange = e => {
+                this._homeViewPresenter.route(window.location.hash)
+            }
+        }
+
+
+        renderLois(lois) {
+            console.log('rendering Lois', lois);
+
+            // generate html
+            let html = '';
+            lois.forEach((loi) => html += this.loiToHtml(loi));
+
+            // attach it to DOM
+            let list = document.querySelector(".liste-top-lois");
+            list.innerHTML = html;
+
+            //binding click event
+            let loisElm = document.querySelectorAll(".detail-loi");
+            loisElm.forEach((elm, index) => {
+                elm.onclick = e => {
+                    console.log('event', e);
+
+                }
+            });
+
+        }
+
+        loiToHtml(loi) {
+            console.log('tohtml loi');
+            let template =
+                `<a href="#${loi.id}"><article class="card detail-loi">
+                    <div class="card-divider">
+                        ${loi.titre}
+                    </div>
+                    <div class="card-section">
+                        <p>${loi.detail}</p>
+                    </div>
+                    <div class="fb-like"
+                         data-href="http://maxxwebxtb.cluster023.hosting.ovh.net:80/${loi.id}"
+                         data-layout="button"
+                         data-action="like"
+                         data-share="true"></div>
+                </article></a>`;
+            return template
+        }
+
+
+        renderAmendements(amendements) {
+            console.log('rendering amendements', amendements);
+
+            // generate html
+            let html = '';
+            amendements.forEach((amendement) => html += this.amendementsToHtml(amendement));
+
+            // attach it to DOM
+            let list = document.querySelector(".liste-amendements");
+            list.innerHTML = html
+        }
+
+        amendementsToHtml(amendement) {
+            console.log('tohtml amendement');
+
+            let template =
+                `<div class="card liste-amendement">
+                    <div class="card-divider">
+                        ${amendement.titre}
+                    </div>
+                    <div class="card-section">
+                        <p>${amendement.texte}</p>
+                    </div>
+                    <div
+                            class="fb-like"
+                            data-share="true"
+                            data-width="450"
+                            data-show-faces="true">
+                    </div>
+                </div>`;
+            return template
+
+        }
+
+
+    }
+
+
+    //    let eventEmitter = new EventEmitter();
+    new EcmaView();
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!--
+ // barre de menu : Titre | Lois | Admin | Connexion via facebook oauth
+ // ex : https://democras.com
+-->
+
+
+<div class="top-bar-left">
+    <ul class="menu">
+        <li class="menu-text">CiTlab</li>
+        <li><a href="index.html">Lois</a></li>
+        <li><a href="admin.html">Admin</a></li>
+        <li><a href="test.html">Test</a></li>
+    </ul>
+</div>
+<div class="top-bar-right">
+    <ul class="menu">
+        <li id="login-button">
+            <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+        </li>
+        <!--<li><input type="search" placeholder="Search"></li>-->
+        <!--<li>-->
+        <!--<button type="button" class="button">Search</button>-->
+        <!--</li>-->
+    </ul>
+</div>

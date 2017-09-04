@@ -1,0 +1,25 @@
+.consultation-lois-et-amendements {
+    margin-top: 1rem;
+}
+
+/*.liste-top-lois {*/
+/*padding-left: 1rem;*/
+/*}*/
+
+/*.liste-amendements {*/
+/*padding:0 1rem;*/
+
+/*}*/
+
+.cell {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.show {
+    display: flex;
+}
