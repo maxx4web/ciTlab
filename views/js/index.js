@@ -1,23 +1,16 @@
+w3.includeHTML();
+
 (function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {
-        return;
-    }
+    let js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
     js = d.createElement(s);
     js.id = id;
-    js.src = "//connect.facebook.net/fr_FR/sdk.js";
+    js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.10&appId=1405239716228196";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
-
+// appId: '341958356242416', //maxx-app-1 - Test1
 
 window.fbAsyncInit = function () {
-    FB.init({
-        // appId      : '1405239716228196', //maxx-app-1
-        appId: '341958356242416', //maxx-app-1 - Test1
-        xfbml: true,
-        version: 'v2.10'
-    });
-
     // Now that we've initialized the JavaScript SDK, we call
     // FB.getLoginStatus().  This function gets the state of the
     // person visiting this page and can return one of three states to
@@ -32,6 +25,9 @@ window.fbAsyncInit = function () {
 
     document.getElementById('login-button').classList.add('hidden');
     console.log('login...');
+
+    const html = document.querySelector("#liste-top-lois");
+    new LoisView(html, new EventEmitter());
 
     FB.getLoginStatus(function (response) {
         statusChangeCallback(response);
@@ -63,12 +59,15 @@ function statusChangeCallback(response) {
 function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me?fields=id,name,email', function (response) {
-        console.log('Successful login for: ' + response.name);
         console.log('/me response ', response);
         document.getElementById('status').innerHTML =
             'Thanks for logging in, ' + response.name + '!';
-        //TODO : serveur call avec l'email -> serveur : creation session et retour sessionID
-
+        fetch("../server/php/connect.php?user_id = " + response.id)
+            .then(response => response.text())
+            .then(text => {
+                const sessionId = text;
+                console.log('sessionId', sessionId)
+            })
     });
 }
 

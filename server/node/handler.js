@@ -76,25 +76,25 @@ function fetchAmendements(request, response) {
 
         amendements = [
             {
-                titre: "Article 16 - Chef de filât des politiques de jeunesse confié aux régions avec mission de coordination de l'information des jeunes",
-                texte: "Les politiques de la jeunesse mises en œuvre par les institutions publiques ont toutes pour objectif de permettre aux jeunes de devenir autonomes, de s'épanouir dans leurs projets de vie, d'utiliser leurs droits et de devenir des citoyens à part entière. ",
+                titre: "",
+                texte: ". ",
                 id_loi: id_loi
             },
             {
-                titre: "Article 17 - Information santé, couverture sociale et prévention régulière pour tous les jeunes",
-                texte: "Faciliter l'information des jeunes en matière de santé, de prévention et de couverture sociale.",
+                titre: "",
+                texte: ".",
                 id_loi: id_loi
             }];
     } else {
         amendements = [
             {
-                titre: "Article 11 - Chef de filât des politiques de jeunesse confié aux régions avec mission de coordination de l'information des jeunes",
-                texte: "Les politiques de la jeunesse mises en œuvre par les institutions publiques ont toutes pour objectif de permettre aux jeunes de devenir autonomes, de s'épanouir dans leurs projets de vie, d'utiliser leurs droits et de devenir des citoyens à part entière. ",
+                titre: "",
+                texte: ". ",
                 id_loi: id_loi
             },
             {
                 titre: "Article 12 - Information santé, couverture sociale et prévention régulière pour tous les jeunes",
-                texte: "Faciliter l'information des jeunes en matière de santé, de prévention et de couverture sociale.",
+                texte: ".",
                 id_loi: id_loi
             }];
     }

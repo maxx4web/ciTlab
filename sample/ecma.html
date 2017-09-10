@@ -59,13 +59,12 @@
         }
 
         loadLois() {
-            console.log("_lois", this._lois);
             let lois = this._lois;
             if (lois) {
                 this._view.renderLois(lois)
             } else {
                 console.log('fetching Lois...');
-                this.get('/lois')
+                this.get('lois')
                     .then(data => this.handleLois(data))
             }
         }
@@ -76,29 +75,30 @@
         }
 
         loadAmendements(loi_id) {
-            console.log("_amendements", this._amendements);
-            let loi_amendements = this._amendements.get(loi_id);
-            if (loi_amendements) {
-                this._view.renderAmendements(loi_amendements)
-            } else {
-                console.log('fetchingAmendements...', loi_id);
-                this.get('/amendements?id_loi=' + loi_id)
-                    .then(data => this.handleAmendements(loi_id, data))
+            if (loi_id) {
+                let loi_amendements = this._amendements.get(loi_id);
+                if (loi_amendements) {
+                    this._view.renderAmendements(loi_amendements)
+                } else {
+                    console.log('fetchingAmendements...', loi_id);
+                    this.get('/amendements?id_loi=' + loi_id)
+                        .then(data => this.handleAmendements(loi_id, data))
+                }
             }
+
         }
 
         handleAmendements(loi_id, data) {
-            this._amendements.set(loi_id, data);
-            this._view.renderAmendements(this._amendements.get(loi_id))
+            if{data}{
+                this._amendements.set(loi_id, data);
+                this._view.renderAmendements(this._amendements.get(loi_id))
+            }
         }
 
         get(url) {
             return fetch(url)
-                .then(function (response) {
-                    return response.json()
-                }).then(function (json) {
-                    return json;
-                }).catch(function (ex) {
+                .then(response => response.json())
+                .then(json => json).catch(ex => {
                     console.log('parsing failed', ex)
                 })
         }
