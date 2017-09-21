@@ -8,7 +8,6 @@ class LoiPresenter {
     }
 
     bindAppEvent() {
-        // this.eventEmitter.on("loi_fetched", e => this.updateLoi(e))
     }
 
     fetchLois(id) {
@@ -34,9 +33,9 @@ class LoiPresenter {
 
 class LoiView {
 
-    constructor(html, eventEmitter, id) {
-        this.html = html;
-        this.html.innerHTML = "...";
+    constructor(html_root, eventEmitter, id) {
+        this.html_root = html_root;
+        this.html_root.innerHTML = "...";
         this.presenter = new LoiPresenter(this, eventEmitter, id);
         this.bindUiEvent()
     }
@@ -48,7 +47,7 @@ class LoiView {
     updateLoi(loi) {
         //TODO delete <a> and handle with UI event
         console.log('rendering Loi', loi);
-        this.html.innerHTML =
+        this.html_root.innerHTML =
             `<a href="#${loi.id}">
                 <div class="card-divider">
                     ${loi.titre}
@@ -64,6 +63,6 @@ class LoiView {
                 </div>
                 <div class="fb-comments" data-href="http://maxxwebxtb.cluster023.hosting.ovh.net/citlab/views/index.html#${loi.id}" data-numposts="5" width="100%"></div>
             </a>`;
-        FB.XFBML.parse(this.html);
+        FB.XFBML.parse(this.html_root); //to make diplay facebook stuff
     }
 }

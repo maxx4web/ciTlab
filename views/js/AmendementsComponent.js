@@ -1,67 +1,81 @@
-class LoisPresenter {
+class AmendementsPresenter {
+
     constructor(view, eventEmitter) {
         this.view = view;
         this.eventEmitter = eventEmitter;
-        this.lois = [];
-        this.bindAppEvent();
-        this.fetchLois()
+        this.bindAppEvent()
+
     }
 
     bindAppEvent() {
-        this.eventEmitter.on("hash_changed", e => this.fetchLois(e))
-        // this.eventEmitter.on("lois_fetched", e => this.updateLois(e))
+        this.eventEmitter.on("hash_changed", route => this.handle(route))
     }
 
-    fetchLois() {
-        //lazy load
-        if (this.lois.length) {
-            console.log('updateLois with cache');
-            this.updateLois(this.lois);
+    handle(route) {
+        // _ -> # : load & ids = liste
+        // # -> #' : load & ids = liste
+        // _ -> _ : clear & ids = vide
+        // # -> _ : clear & ids = vide
+
+        if (route) {
+            this.fetchAmendements(route)
         } else {
-            console.log('updateLois with server request');
-            get('../server/php/lois.php')
-                .then(data => {
-                    this.lois = data;
-                    this.updateLois();
-                })
-                .catch(ex => console.log('updating view failed', ex))
+            this.view.renderAmendements([]);
         }
     }
 
-    updateLois() {
-        this.eventEmitter.fire("lois_fetched", this.lois);
-        this.view.renderLois(this.lois.ids)
+    fetchAmendements(loi_id) {
+        console.log('fetchingAmendements...', loi_id);
+        get('../server/php/amendements.php?loi_id=' + loi_id)
+            .then(data => this.updateAmendements(data.ids))
+    }
+
+    updateAmendements(amendements) {
+        this.eventEmitter.fire("amendements_fetched", amendements);
+        this.view.renderAmendements(amendements);
     }
 }
 
-class LoisView {
+class AmendementsView {
 
-    constructor(html, eventEmitter) {
-        this.html = html;
-        this.presenter = new LoisPresenter(this, eventEmitter);
+    constructor(html_root, eventEmitter) {
+        this.html_root = html_root;
+        this.presenter = new AmendementsPresenter(this, eventEmitter);
         this.bindUiEvent()
     }
 
     bindUiEvent() {
-        //onsubmit?
+        //?
     }
 
-    renderLois(lois_ids) {
-        console.log('rendering Lois', lois_ids);
-
-        if (lois_ids) {
-            //     // generate html
-            //
-            const fragment = document.createDocumentFragment();
-
-            for (let loi_id of lois_ids) {
-                const el = document.createElement('article');
-                el.classList.add("card", "detail-loi");
-                const node = fragment.appendChild(el);
-                new LoiView(node, this.presenter.eventEmitter, loi_id)
-            }
-            // attach it to DOM
-            this.html.appendChild(fragment);
+    renderAmendements(amendements_ids) {
+        console.log('rendering Amendements', amendements_ids);
+        this.clearChildren();
+        if (amendements_ids.length) {
+            this.appendNewChildren(amendements_ids);
         }
     }
+
+    clearChildren() {
+        while (this.html_root.firstChild) {
+            this.html_root.removeChild(this.html_root.firstChild);
+        }
+    }
+
+    appendNewChildren(amendements_ids) {
+        console.log('append New Children');
+        const fragment = document.createDocumentFragment();
+
+        for (let amendement_id of amendements_ids) {
+            //TODO mettre la construction de "el" dans la View
+            const el = document.createElement('div');
+            el.classList.add("card", "liste-amendement");
+            const node = fragment.appendChild(el);
+            console.log('creation Amendement', amendement_id);
+            new AmendementView(node, this.presenter.eventEmitter, amendement_id)
+        }
+        // attach it to DOM
+        this.html_root.appendChild(fragment);
+    }
+
 }

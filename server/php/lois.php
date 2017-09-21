@@ -1,6 +1,6 @@
 <?php
 require 'logger.php';
-require 'dto/Lois.php';
+require 'dto/Liste.php';
 
 
 execute();
@@ -12,7 +12,7 @@ function execute()
 //debug("Executing Lois");
         //  load des lois pour le front
 // TODO SQL request
-        $lois = new Lois(2, array(13, 71));
+        $lois = new Liste(2, array(13, 71));
         $json = json_encode($lois);
         echo $json;
 //        debug($json); // not echo uncomment this line to json

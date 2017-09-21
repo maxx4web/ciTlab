@@ -31,7 +31,7 @@ new Vue({
     mounted: function () {
         console.log('mounted');
 
-        this.fetchLois();
+        this.handle();
     },
 
     // Methods we want to use in our application are registered here

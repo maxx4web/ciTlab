@@ -1,7 +1,7 @@
 class App {
 
     constructor(root, window) {
-        this.root = root;
+        this.html_root = root;
         this.window = window;
         this.eventEmitter = new EventEmitter();
         this.bindUIEvents();
@@ -10,6 +10,9 @@ class App {
             root.querySelector("#liste-top-lois"),
             this.eventEmitter);
         //TODO new amendent component
+        new AmendementsView(
+            root.querySelector("#liste-amendements"),
+            this.eventEmitter);
         this.route(window.location.hash)
     }
 

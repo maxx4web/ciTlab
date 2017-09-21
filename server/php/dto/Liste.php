@@ -1,6 +1,6 @@
 <?php
 
-class Lois
+class Liste
 {
     public $total, $ids; //public nécessaire pour encodage json
 
