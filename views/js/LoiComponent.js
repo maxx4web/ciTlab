@@ -61,7 +61,7 @@ class LoiView {
                     data-layout="button"
                     data-show-faces="false">
                 </div>
-                <div class="fb-comments" data-href="http://maxxwebxtb.cluster023.hosting.ovh.net/citlab/views/index.html#${loi.id}" data-numposts="5" width="100%"></div>
+                <div class="fb-comments" data-href="http://maxxwebxtb.cluster023.hosting.ovh.net/citlab/views/loi/${loi.id}" data-numposts="5" width="100%"></div>
             </a>`;
         FB.XFBML.parse(this.html_root); //to make diplay facebook stuff
     }
