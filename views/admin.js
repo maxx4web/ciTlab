@@ -30,15 +30,8 @@ new Vue({
 
     mounted: function () {
         console.log('mounted');
-
-        this.handle();
-        this.$http.get('../server/php/admin/next-id.php')
-            .then(function (response) {
-                    this.loi.id = response.body;
-                }
-                , function (err) {
-                    console.log(err);
-                });
+        // this.handle();
+        this.newID();
     },
 
     // Methods we want to use in our application are registered here
@@ -58,12 +51,24 @@ new Vue({
 
         },
 
-        //TODO chargement de prochain ID (GUID)
+        //DONE chargement de prochain ID (GUID)
+        //TODO appel @put pour stocker
         //TODO bouton suppression
         //TODO inline input date
-        //TODO appel côté serveur pour stocker en session
+        //TODO appel @get pour liste lois
         //TODO renommer "loi" en "nouvelle loi"
         //TODO validation pur empecher une loi vide
+
+        newID: function () {
+            this.$http.get('../server/php/admin/nextid.php')
+                .then(function (response) {
+                        console.log(response);
+                        this.loi.id = response.body;
+                    }
+                    , function (err) {
+                        console.log(err);
+                    });
+        },
 
 
         addNewLoi: function () {
@@ -73,6 +78,7 @@ new Vue({
                         console.log(response);
                         this.lois.push(this.loi);
                         this.loi = {id: '', titre: '', detail: '', date: ''};
+                        this.newID();
                     }
                     , function (err) {
                         console.log(err);

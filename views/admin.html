@@ -21,6 +21,7 @@
         <div class="large-6 cell formulaire-loi">
             <h4>Ajouter un loi</h4>
             <form name="ajouter-loi" @submit.prevent>
+                <input type="text" v-model="loi.id" class="form-control" name="id-loi" readonly="readonly">
                 <input type="text" v-model="loi.titre" class="form-control" name="titre-loi"
                        placeholder="Nom de la loi"/>
                 <textarea rows="5" v-model="loi.detail" class="form-control" name="detail-loi"
