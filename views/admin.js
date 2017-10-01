@@ -32,7 +32,7 @@ new Vue({
         console.log('mounted');
 
         this.handle();
-        this.$http.get('../server/php/admin/next-id')
+        this.$http.get('../server/php/admin/next-id.php')
             .then(function (response) {
                     this.loi.id = response.body;
                 }

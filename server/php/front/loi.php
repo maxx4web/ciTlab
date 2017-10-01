@@ -1,5 +1,5 @@
 <?php
-require 'logger.php';
+require '../logger.php';
 require 'dto/Loi.php';
 
 execute($_GET["id"]);

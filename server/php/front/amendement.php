@@ -1,5 +1,5 @@
 <?php
-require 'logger.php';
+require '../logger.php';
 require 'dto/Amendement.php';
 
 execute($_GET["amendement_id"]);
