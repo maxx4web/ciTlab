@@ -17,7 +17,7 @@ class LoiPresenter {
             this.updateLoi(this.loi);
         } else { //vide
             console.log('updateLoi with server request');
-            get(`../server/php/loi.php?id=${id}`)
+            get(`../server/php/front/loi.php?id=${id}`)
                 .then(data => {
                     this.loi = data;
                     this.updateLoi();

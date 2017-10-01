@@ -24,12 +24,10 @@
     <div class="grid-x consultation-lois-et-amendements">
         <div class="large-7 cell liste-top-lois" id="liste-top-lois"></div>
         <div class="large-5 cell consultation-amendements">
-
             <div class="liste-amendements" id="liste-amendements"></div>
-
             <div class="card form-amendement hidden">
                 <h3 id="form-amendement-title"></h3>
-                <form method="post" id="amendement-form" action="../server/php/amendements.php">
+                <form method="post" id="amendement-form" action="../server/php/front/amendements.php">
                     <input type="hidden" name="id-loi"/>
                     <label for="texte-amendement">Amendement
                         <input type="text" class="form-control" name="titre-loi"
@@ -39,14 +37,11 @@
                         <textarea id="texte-amendement" name="texte-amendement"
                                   placeholder="Tapez votre texte ici.."></textarea>
                     </label>
-
-                    <!--<button type="submit" @click.prevent="submit">go!</button>-->
                     <button type="submit" class="button float-right">go!</button>
                 </form>
             </div>
         </div>
     </div>
-
 </div>
 <script src="https://www.w3schools.com/lib/w3.js"></script>
 <script src="js/utils/facebook.js"></script>

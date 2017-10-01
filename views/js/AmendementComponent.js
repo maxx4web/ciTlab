@@ -15,7 +15,7 @@ class AmendementPresenter {
 
     fetchAmendement(amendement_id) {
         console.log('fetchingAmendement...', amendement_id);
-        get('../server/php/amendement.php?amendement_id=' + amendement_id)
+        get('../server/php/front/amendement.php?amendement_id=' + amendement_id)
             .then(data => this.updateAmendement(data))
     }
 

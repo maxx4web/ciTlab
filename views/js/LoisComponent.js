@@ -27,7 +27,7 @@ class LoisPresenter {
 
     fetchLois() {
         console.log('updateLois multiple with server request');
-        get('../server/php/lois.php')
+        get('../server/php/front/lois.php')
             .then(data => {
                 this.loi_ids = data.ids;
                 this.updateLois();
